@@ -1,6 +1,6 @@
 const { APP_LINK } = process.env;
 
-export const credentialsSyncedTemplated = (userName, token) => `<html>
+const credentialsSyncedTemplated = (userName, token) => `<html>
 <head>
 <title></title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -165,3 +165,5 @@ export const credentialsSyncedTemplated = (userName, token) => `<html>
 </body>
 
 </html>`;
+
+export { credentialsSyncedTemplated };

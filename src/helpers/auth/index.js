@@ -1,1 +1,3 @@
-export authTestHelper from './auth.js';
+import authTestHelper from "./auth.js";
+
+export { authTestHelper };

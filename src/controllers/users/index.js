@@ -1,1 +1,3 @@
-export updatePassword from './update-password';
+import updatePassword from "./update-password";
+
+export { updatePassword };

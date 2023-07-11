@@ -1,43 +1,43 @@
-import passport from 'passport';
-import jwt from 'jsonwebtoken';
-import LocalStrategy from 'passport-local';
-import { Strategy as JWTstrategy, ExtractJwt } from 'passport-jwt';
-import Users from '../models/users';
+import passport from "passport";
+import jwt from "jsonwebtoken";
+import LocalStrategy from "passport-local";
+import { Strategy as JWTstrategy, ExtractJwt } from "passport-jwt";
+import Users from "../models/users";
 const { JWT_SECRET } = process.env;
 
-export const generateTokenResponse = ({ _id, email, name }, verify = false) => {
-  let expiryTime = '365d';
+const generateTokenResponse = ({ _id, email, name }, verify = false) => {
+  let expiryTime = "365d";
   return {
     token: jwt.sign({ _id, email, name }, JWT_SECRET, {
-      expiresIn: expiryTime
+      expiresIn: expiryTime,
     }),
-    userId: _id
+    userId: _id,
   };
 };
 
-export const authenticateAuthToken = passport.authenticate('jwt', {
-  session: false
+const authenticateAuthToken = passport.authenticate("jwt", {
+  session: false,
 });
 
 // ============================ Local Login Strategy ============================ //
 
-export const LocalLoginStrategy = new LocalStrategy(
+const LocalLoginStrategy = new LocalStrategy(
   {
-    usernameField: 'email',
-    passReqToCallback: true
+    usernameField: "email",
+    passReqToCallback: true,
   },
   async (req, email, password, done) => {
     try {
       const user = await Users.findOne({ email });
       if (!user) {
         return done(null, false, {
-          error: 'Your login details could not be verified. Please try again.'
+          error: "Your login details could not be verified. Please try again.",
         });
       }
       const isValid = user.validatePassword(password);
       if (!isValid) {
         return done(null, false, {
-          error: 'Your login details could not be verified. Please try again.'
+          error: "Your login details could not be verified. Please try again.",
         });
       }
       return done(null, user);
@@ -49,10 +49,10 @@ export const LocalLoginStrategy = new LocalStrategy(
 
 // ============================ JWT Strategy ============================ //
 
-export const AuthenticationStrategy = new JWTstrategy(
+const AuthenticationStrategy = new JWTstrategy(
   {
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-    secretOrKey: JWT_SECRET
+    secretOrKey: JWT_SECRET,
   },
   async (jwtPayload, done) => {
     try {
@@ -65,3 +65,10 @@ export const AuthenticationStrategy = new JWTstrategy(
     }
   }
 );
+
+export {
+  AuthenticationStrategy,
+  LocalLoginStrategy,
+  generateTokenResponse,
+  authenticateAuthToken,
+};

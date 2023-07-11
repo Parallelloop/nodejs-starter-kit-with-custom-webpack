@@ -1,6 +1,6 @@
-const { default: ResetPassword } = require("./reset-password");
+import SignIn from "./sign-in";
+import SignUp from "./sign-up";
+import ForgetPassword from "./forget-password";
+import ResetPassword from "./reset-password";
 
-export SignIn from './sign-in';
-export SignUp from './sign-up';
-export ForgetPassword from './forget-password';
-export ResetPassword from './reset-password';
+export { SignIn, SignUp, ForgetPassword, ResetPassword };
